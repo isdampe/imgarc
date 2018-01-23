@@ -1,12 +1,13 @@
 #pragma once
 #include <stdlib.h>
+#include "sha1.h"
 
 typedef struct
 {
 	char *name;
 	uint32_t size_bytes;
 	uint8_t *data;
-	char checksum[64];
+	uint8_t checksum[SHA1_BLOCK_SIZE];
 } imgarc_file;
 
 imgarc_file imgarc_read_file(char *fp);

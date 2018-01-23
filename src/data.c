@@ -1,6 +1,7 @@
 #include <string.h>
 #include "data.h"
 #include "file_io.h"
+#include "sha1.h"
 
 imgarc_data imgarc_data_from_fd(imgarc_file *fd)
 {
@@ -14,7 +15,7 @@ imgarc_data imgarc_data_from_fd(imgarc_file *fd)
 		4 //The 4 bytes representing the data size
 		+ fd->size_bytes //The actual data size.
 		+ name_length //The length of the file name.
-		+ 64 //For checksum.
+		+ SHA1_BLOCK_SIZE //For checksum.
 	);
 	
 	obj.data = malloc(obj.size * sizeof(uint8_t));
@@ -25,7 +26,7 @@ imgarc_data imgarc_data_from_fd(imgarc_file *fd)
 		obj.data[a + n] = (fd->size_bytes >> (32 - (8 * (n +1)))) & 0xFF;
 	a = a+n;	
 
-	for (n=0; n<64; n++)
+	for (n=0; n<SHA1_BLOCK_SIZE; n++)
 		obj.data[a + n] = fd->checksum[n];
 	a = a+n;
 	
@@ -59,7 +60,7 @@ imgarc_file imgarc_file_from_data(const imgarc_data *obj)
 	a = a + n;
 	
 	//Read checksum.
-	for (n=0; n<64; n++)
+	for (n=0; n<SHA1_BLOCK_SIZE; n++)
 		fd.checksum[n] = obj->data[a + n];
 	a = a + n;
 	

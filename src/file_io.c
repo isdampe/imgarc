@@ -37,7 +37,11 @@ imgarc_file imgarc_read_file(char *fp)
 		++n;
 	}
 
-	//Perform a hash?
+	//Checksum.
+	SHA1_CTX ctx;
+	sha1_init(&ctx);
+	sha1_update(&ctx, fd.data, fd.size_bytes);
+	sha1_final(&ctx, fd.checksum);
 
 	return fd;
 }
