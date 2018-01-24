@@ -26,14 +26,14 @@ int main(int argc, char **argv)
 	char *out_fp = argv[4];
 
 	int16_t *sequence = imgarc_pass_to_sequence(password);
-	imgarc_io_print_sequence(sequence);
 
 	imgarc_file fd = imgarc_read_file(in_fp);
 	if (fd.size_bytes < 1)
 		imgarc_fatal("cannot read input_file, or it's too small.");
 
 	imgarc_data obj = imgarc_data_from_fd(&fd);
-	//imgarc_io_print_file_meta(&fd);
+	imgarc_io_print_file_meta(&fd);
+	imgarc_io_print_sequence(sequence);
 
 	imgarc_file new_fd = imgarc_file_from_data(&obj);
 	//imgarc_io_print_file_meta(&new_fd);
