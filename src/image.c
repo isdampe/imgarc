@@ -82,4 +82,5 @@ void imgarc_image_png_free(imgarc_image *img)
 	for (int y=0; y<img->height;y++)
 		free(img->row_pointers[y]);
 	free(img->row_pointers);
+	png_destroy_read_struct(&img->png, &img->info, NULL);
 }
