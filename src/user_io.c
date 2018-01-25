@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "file_io.h"
 #include "sha1.h"
+#include "image.h"
 
 void imgarc_io_print_file_meta(const imgarc_file *fd)
 {
@@ -26,4 +27,12 @@ void imgarc_io_print_sequence(const int16_t *sequence)
 		
 	}
 	printf("\n");
+}
+
+
+void imgarc_io_print_image_png_meta(imgarc_image *img)
+{
+	printf("Bit depth: %i\n", img->bit_depth);
+	printf("Width: %i pixels\n", img->width);
+	printf("Height: %i pixels\n", img->height);
 }

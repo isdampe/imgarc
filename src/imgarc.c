@@ -3,6 +3,7 @@
 #include "data.h"
 #include "user_io.h"
 #include "password.h"
+#include "image.h"
 
 void imgarc_fatal(char *error)
 {
@@ -44,7 +45,20 @@ int main(int argc, char **argv)
 	imgarc_data_free(&obj);
 	imgarc_free_file(&new_fd);
 
+	//Read the image.
+	imgarc_image img_src;
+	printf("Opening %s\n", img_fp);
+	imgarc_image_read_png_from_file(img_fp, &img_src);
+	if (img_src.error > 0)
+		imgarc_fatal("Error reading png from file.");
 	
+	imgarc_io_print_image_png_meta(&img_src);
+
+	//Encode the data.
+
+	//Write the output file.
+
+	imgarc_image_png_free(&img_src);
 	
 	return 0;
 }
