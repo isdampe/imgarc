@@ -84,3 +84,79 @@ void imgarc_image_png_free(imgarc_image *img)
 	free(img->row_pointers);
 	png_destroy_read_struct(&img->png, &img->info, NULL);
 }
+
+uint8_t imgarc_image_get_pixel_channel_value(imgarc_image *img, int pixel_number, int channel)
+{
+	int y = (pixel_number / img->width), x = (pixel_number % img->width);
+	png_bytep row = img->row_pointers[y];
+	png_bytep px = &(row[x * 4]);
+	//printf("%4d, %4d = RGBA(%3d, %3d, %3d, %3d)\n", x, y, px[0], px[1], px[2], px[3]);
+	return px[channel];
+}
+
+void imgarc_image_set_pixel_channel_value(imgarc_image *img, int pixel_number, int channel, uint8_t value)
+{
+	int y = (pixel_number / img->width), x = (pixel_number % img->width);
+	png_bytep row = img->row_pointers[y];
+	png_bytep px = &(row[x * 4]);
+	px[channel] = value;
+}
+
+long imgarc_image_get_max_encoding_size_bytes(const imgarc_image *img)
+{
+	return ((img->width * img->height) / sizeof(uint8_t) - 20 - 4 - 1024);
+}
+
+void imgarc_image_write_png(const char *output_fp, imgarc_image *img)
+{
+	int y;
+
+	FILE *fp = fopen(output_fp, "wb");
+	if(! fp)
+	{
+		img->error = IMGARC_IMG_ERROR_FWRITE;
+		return;
+	}
+
+	png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (! png)
+	{
+		img->error = IMGARC_IMG_ERROR_WRITE_STRUCT;
+		return;
+	}
+
+	png_infop info = png_create_info_struct(png);
+	if (! info)
+	{
+		img->error = IMGARC_IMG_ERROR_CREATE_INFO;
+		return;
+	}
+
+	if (setjmp(png_jmpbuf(png)))
+	{
+		img->error = IMGARC_IMG_ERROR_SETJMP;
+		return;
+	}
+
+	png_init_io(png, fp);
+
+	//Output format.
+	png_set_IHDR(
+		png,
+		info,
+		img->width, 
+		img->height,
+		8,
+		PNG_COLOR_TYPE_RGBA,
+		PNG_INTERLACE_NONE,
+		PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT
+	);
+	png_write_info(png, info);
+
+	png_write_image(png, img->row_pointers);
+	png_write_end(png, NULL);
+	fclose(fp);
+	png_destroy_write_struct(&png, &info);
+
+}
