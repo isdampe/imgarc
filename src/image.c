@@ -5,6 +5,7 @@
 void imgarc_image_read_png_from_file(const char *image_fp, imgarc_image *img)
 {
 	FILE *fp = fopen(image_fp, "rb");
+	img->error = 0;
 
 	img->png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (! img->png)
@@ -110,6 +111,7 @@ uint32_t imgarc_image_get_max_encoding_size_bytes(const imgarc_image *img)
 void imgarc_image_write_png(const char *output_fp, imgarc_image *img)
 {
 	int y;
+	img->error = 0;
 
 	FILE *fp = fopen(output_fp, "wb");
 	if(! fp)

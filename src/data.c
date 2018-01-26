@@ -65,7 +65,7 @@ imgarc_file imgarc_file_from_data(const imgarc_data *obj)
 	a = a + n;
 	
 	//Read filename.
-	for (n=0; n<256; n++)
+	for (n=0; n<255; n++)
 	{
 		tmp_filename[n] = obj->data[a + n];
 		if (tmp_filename[n] == '\0')
