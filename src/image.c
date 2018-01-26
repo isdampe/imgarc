@@ -104,7 +104,7 @@ void imgarc_image_set_pixel_channel_value(imgarc_image *img, int pixel_number, i
 
 long imgarc_image_get_max_encoding_size_bytes(const imgarc_image *img)
 {
-	return ((img->width * img->height) / sizeof(uint8_t) - 20 - 4 - 1024);
+	return ((img->width * img->height) / 8) - 20 - 4 - 255;
 }
 
 void imgarc_image_write_png(const char *output_fp, imgarc_image *img)
