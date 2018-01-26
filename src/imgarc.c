@@ -128,6 +128,10 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 		imgarc_io_print_file_meta(&new_file);
 	}
 
+	//Write the file.
+	if (! imgarc_data_write_file(&obj, &new_file, out_dir, verbose))
+		printf("An error occured when writing %s\n", new_file.name);
+
 	//Clean up.
 	free(sequence);
 	imgarc_image_png_free(&img_src);

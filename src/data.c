@@ -1,4 +1,6 @@
+#include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 #include "data.h"
 #include "file_io.h"
 #include "sha1.h"
@@ -86,4 +88,29 @@ imgarc_file imgarc_file_from_data(const imgarc_data *obj)
 	
 	return fd;
 	
+}
+
+bool imgarc_data_write_file(imgarc_data *obj, imgarc_file *file, char *file_dir, bool verbose)
+{
+	char out_fp[255];
+	int file_dir_length = strlen(file_dir);
+
+	//Setup the output file path for writing.
+	strcpy(out_fp, file_dir);
+	if (file_dir_length > 0)
+	if (out_fp[strlen(file_dir) -1] != '/')
+		strcat(out_fp, "/");
+	strcat(out_fp, file->name);
+
+	if (verbose)
+		printf("Writing %i bytes to %s\n", obj->size, out_fp);
+
+	FILE *fp = fopen(out_fp, "wb");
+	if (! fp)
+		return false;
+
+	if (fwrite(file->data, sizeof(uint8_t), file->size_bytes, fp) == 0)
+		return false;
+	
+	return true;
 }
