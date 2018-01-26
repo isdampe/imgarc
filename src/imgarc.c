@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	char *in_fp = argv[2];
 	char *password = argv[3];
 	char *out_fp = argv[4];
-	long max_file_size = 0;
+	uint32_t max_file_size = 0;
 
 	//Read the file to be encoded.
 	imgarc_file fd = imgarc_read_file(in_fp);
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	max_file_size = imgarc_image_get_max_encoding_size_bytes(&img_src);
 	if (obj.size >= max_file_size)
 	{
-		printf("The maximum file size that can be encoded into this PNG is %ld bytes.\n", max_file_size);
+		printf("The maximum file size that can be encoded into this PNG is %u bytes.\n", max_file_size);
 		imgarc_fatal("Input file exceeded the maximum encodable file size.");
 	}
 

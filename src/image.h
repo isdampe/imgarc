@@ -28,5 +28,5 @@ void imgarc_image_read_png_from_file(const char *image_fp, imgarc_image *img);
 void imgarc_image_png_free(imgarc_image *img);
 uint8_t imgarc_image_get_pixel_channel_value(imgarc_image *img, int pixel_number, int channel);
 void imgarc_image_set_pixel_channel_value(imgarc_image *img, int pixel_number, int channel, uint8_t value);
-long imgarc_image_get_max_encoding_size_bytes(const imgarc_image *img);
+uint32_t imgarc_image_get_max_encoding_size_bytes(const imgarc_image *img);
 void imgarc_image_write_png(const char *output_fp, imgarc_image *img);
