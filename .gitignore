@@ -1,2 +1,5 @@
 **/.vscode/*
 bin/*
+out.png
+.DS_Store
+**/.DS_Store
