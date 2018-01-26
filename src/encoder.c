@@ -1,10 +1,11 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include "bitops.h"
 #include "image.h"
 #include "data.h"
 #include "encoder.h"
 
-int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img, uint8_t verbose)
+int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img, bool verbose)
 {
 	int n = 0, s = 0, current_channel, current_bit_offset;
 	int16_t cs;
@@ -63,19 +64,15 @@ int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img, uint8
 
 }
 
-int imgarc_decode_to_data(imgarc_data *obj, int16_t *sequence, imgarc_image *img, uint8_t verbose)
+int imgarc_decode_to_data(imgarc_data *obj, int16_t *sequence, imgarc_image *img, bool verbose)
 {
 	int n = 0, s = 0, data_start_index;
 	uint8_t current_byte, file_name_length;
 	uint8_t size_bytes[4] = {0};
-	/*uint8_t checksum[20] = {0};
-	uint8_t filename[255] = {0};*/
 
 	//Read first four bytes, get size.
 	s = imgarc_decode_read_n_bytes_from_img(size_bytes, sequence, img, 0, 4, s);
 	uint32_t size = imgarc_bytes_to_uint32(size_bytes);
-
-	//printf("Size: %u bytes\n", size);
 
 	uint8_t *data = malloc(size * sizeof(uint8_t));
 	s = 0;
