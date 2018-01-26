@@ -49,6 +49,8 @@ int main(int argc, char **argv)
 	//Clean up.
 	free(sequence);
 	imgarc_image_png_free(&img_src);
+	imgarc_data_free(&obj);
+	imgarc_free_file(&new_file);
 	
 	return 0;
 }
