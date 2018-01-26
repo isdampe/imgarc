@@ -27,7 +27,7 @@ int imgarc_conv_b10_b6(int8_t n, int progress, int16_t *sequence)
 	int start_progress = progress;
 	while (n != 0)
 	{
-		sequence[progress] = n % 6;
+		sequence[progress] = n % 3;
 		n = n / 6;
 		++progress;
 	}
