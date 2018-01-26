@@ -16,13 +16,13 @@ int16_t *imgarc_pass_to_sequence(char *password)
 	for (size_t i=0; i<pass_length; ++i)
 	{
 		cv = password[i];
-		progress = imgarc_conv_b10_b6(cv, progress, sequence);
+		progress = imgarc_conv_b10_b3(cv, progress, sequence);
 	}
 
 	return sequence;
 }
 
-int imgarc_conv_b10_b6(int8_t n, int progress, int16_t *sequence)
+int imgarc_conv_b10_b3(int8_t n, int progress, int16_t *sequence)
 {
 	int start_progress = progress;
 	while (n != 0)
