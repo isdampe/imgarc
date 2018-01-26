@@ -128,10 +128,18 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 		imgarc_io_print_file_meta(&new_file);
 	}
 
-	//Write the file.
-	if (! imgarc_data_write_file(&obj, &new_file, out_dir, verbose))
-		printf("An error occured when writing %s\n", new_file.name);
-
+	//Verify checksum.
+	if (imgarc_file_verify_checksum(&new_file))
+	{
+		if (! imgarc_data_write_file(&obj, &new_file, out_dir, verbose))
+			printf("An error occured when writing %s\n", new_file.name);	
+	}	
+	else
+	{
+		printf("The decoded checksum did not match the file data.\n");
+		printf("Typically, this means either the password is wrong, or the file has been corrupt.\n");
+	}
+	
 	//Clean up.
 	free(sequence);
 	imgarc_image_png_free(&img_src);

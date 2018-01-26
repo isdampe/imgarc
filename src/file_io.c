@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <libgen.h>
@@ -51,4 +52,21 @@ void imgarc_free_file(imgarc_file *fd)
 	free(fd->name);
 	if (fd->size_bytes > 0)
 		free(fd->data);
+}
+
+bool imgarc_file_verify_checksum(imgarc_file *fd)
+{
+	uint8_t checksum[SHA1_BLOCK_SIZE];
+	
+	SHA1_CTX ctx;
+	sha1_init(&ctx);
+	sha1_update(&ctx, fd->data, fd->size_bytes);
+	sha1_final(&ctx, checksum);
+
+	for (int i=0;i<SHA1_BLOCK_SIZE;i++)
+		if (checksum[i] != fd->checksum[i])
+			return false;
+
+	return true;
+
 }

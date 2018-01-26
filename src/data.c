@@ -109,8 +109,7 @@ bool imgarc_data_write_file(imgarc_data *obj, imgarc_file *file, char *file_dir,
 		strcat(out_fp, "/");
 	strcat(out_fp, file->name);
 
-	if (verbose)
-		printf("Writing %i bytes to %s\n", obj->size, out_fp);
+	printf("Writing %i bytes to %s\n", obj->size, out_fp);
 
 	FILE *fp = fopen(out_fp, "wb");
 	if (! fp)
