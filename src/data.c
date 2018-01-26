@@ -25,7 +25,7 @@ imgarc_data imgarc_data_from_fd(imgarc_file *fd)
 	//Push each byte from the size_bytes into the set.
 	//Using shifts keeps it portable.
 	for (n=0; n<4; n++)
-		obj.data[a + n] = (fd->size_bytes >> (32 - (8 * (n +1)))) & 0xFF;
+		obj.data[a + n] = (obj.size >> (32 - (8 * (n +1)))) & 0xFF;
 	a = a+n;	
 
 	for (n=0; n<SHA1_BLOCK_SIZE; n++)
@@ -76,8 +76,15 @@ imgarc_file imgarc_file_from_data(const imgarc_data *obj)
 	a = a + (n +1); //An additional +1 to compensate the \0 of file name.
 	
 	//Allocate space for name.
-	fd.name = malloc((n +1) * sizeof(char));
+	fd.name = malloc(n * sizeof(char));
 	strncpy(fd.name, tmp_filename, n +1);
+
+	fd.size_bytes -= (
+		4 //The 4 bytes representing the data size
+		+ n //The length of the file name.
+		+ SHA1_BLOCK_SIZE //For checksum.
+		+ 1
+	);
 
 	//Allocate space for data.
 	fd.data = malloc(fd.size_bytes * sizeof(uint8_t));
