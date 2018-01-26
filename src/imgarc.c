@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	printf("\n");
 
 	printf("-- BEGIN ENCODING --\n");
-	if (imgarc_encode(sequence, &obj, &img_src) < 0)
+	if (imgarc_encode(sequence, &obj, &img_src, 1) < 0)
 		imgarc_fatal("Error encoding data into PNG. Is the file too big?");
 	
 	printf("Encoding complete.\n\n");

@@ -4,20 +4,22 @@
 #include "data.h"
 #include "encoder.h"
 
-int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img)
+int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img, uint8_t verbose)
 {
 	int n = 0, s = 0, current_channel, current_bit_offset;
 	int16_t cs;
 	uint8_t current_byte = 0, current_bit, current_pixel_channel_val;
 	int current_pixel_count = 0;
+	int pm = (data->size * 0.1);
+	if (verbose == 1)
+		printf("Progress: ");
 
 	if ((data->size * 8) > (img->width * img->height))
 		return -1;
 
 	while (n < data->size)
 	{		
-		current_byte = data->data[n];
-		//printf("%02X: ", current_byte);
+		current_byte = data->data[n];		
 		for (int8_t cbc=7; cbc>=0; cbc--)
 		{
 			cs = sequence[s];
@@ -47,10 +49,15 @@ int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img)
 			
 			current_pixel_count++;
 		}
-
 		n++;
 
+		if (n % pm == 0 && verbose == 1)
+			printf("▓▓");
+
 	}
+
+	if (verbose == 1)
+		printf("\n");
 
 	return 1;
 
