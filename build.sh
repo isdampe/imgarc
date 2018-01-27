@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir -p bin
 cd src
-gcc -lpng16 *.c -o ../bin/imgarc
+gcc *.c -o ../bin/imgarc -lpng16
 chmod +x ../bin/imgarc
 cd ../

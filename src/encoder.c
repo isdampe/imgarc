@@ -74,11 +74,12 @@ int imgarc_decode_to_data(imgarc_data *obj, int16_t *sequence, imgarc_image *img
 	s = imgarc_decode_read_n_bytes_from_img(size_bytes, sequence, img, 0, 4, s);
 	uint32_t size = imgarc_bytes_to_uint32(size_bytes);
 
+	if (size > imgarc_image_get_max_encoding_size_bytes(img))
+		return -1;
+
 	uint8_t *data = malloc(size * sizeof(uint8_t));
 	s = 0;
 	s = imgarc_decode_read_n_bytes_from_img(data, sequence, img, 0, size, s);
-
-	//Validate data first?
 
 	obj->size = size;
 	obj->data = data;

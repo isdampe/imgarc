@@ -120,6 +120,11 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 	}
 	
 	result = imgarc_decode_to_data(&obj, sequence, &img_src, 1);
+	if (result < 0)
+		imgarc_fatal("The image you are trying to decode does not look " \
+					 "like an imgarc encoded image. The size header indicates " \
+					 "the encoded file is larger than the maximum possible for " \
+					 "the given image.");
 
 	new_file = imgarc_file_from_data(&obj);
 	if (verbose)
