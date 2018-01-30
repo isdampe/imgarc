@@ -30,3 +30,21 @@ cd imgarc/
 # Show the file output after decoding.
 cat /tmp/file_io.c
 ```
+### The imgarc header and data layout
+
+```
+|-------------------------------------------------------------|
+|       size (4 bytes)       |       sha1 (20 bytes)          |
+|-------------------------------------------------------------|
+|       filename (n bytes, terminated by \0                   |
+|-------------------------------------------------------------|
+|       binary_data (size - 24 - strlen(filename) bytes)      |
+|     ...                                                     |
+|-------------------------------------------------------------|
+
+size: uint32_t, size of entire imgarc entry, header + data
+sha1: char *, SHA1 hash of binary data, used as checksum
+filename: char *, string representing the encoded file, variable length
+binary_data: uint8_t[], raw binary data of the file
+
+```
