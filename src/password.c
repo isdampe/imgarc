@@ -24,11 +24,10 @@ int16_t *imgarc_pass_to_sequence(char *password)
 
 int imgarc_conv_b10_b3(int8_t n, int progress, int16_t *sequence)
 {
-	int start_progress = progress;
 	while (n != 0)
 	{
 		sequence[progress] = n % 3;
-		n = n / 6;
+		n = n / 3;
 		++progress;
 	}
 	return progress;
