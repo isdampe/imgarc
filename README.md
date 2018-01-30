@@ -14,12 +14,25 @@ you should encrypt it before encoding it, and then decrypt it after decoding it.
 
 ## Compiling
 
+imgarc has been compiled successfully on macOS and Ubuntu Linux, both x64.
+
 ```bash
 cd imgarc/
 ./build.sh
 ```
 
-## Example usage
+## Decode the included example
+imgarc comes with a PNG image example.png. This PNG image has another binary
+file encoded inside it that you can decode as an example.
+
+To decode and view the example file:
+
+```bash
+cd imgarc/
+imgarc -d -i example.png -p really_secure_password -v
+```
+
+### imgarc usage
 
 ```bash
 cd imgarc/
