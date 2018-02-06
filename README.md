@@ -14,11 +14,25 @@ you should encrypt it before encoding it, and then decrypt it after decoding it.
 
 ## Compiling
 
-imgarc has been compiled successfully on macOS and Ubuntu Linux, both x64.
+imgarc has been compiled successfully on macOS, Ubuntu Linux, and
+Microsoft Windows (all x64).
+
+__For macOS / Linux:__
+
+_Prequisite: gcc, libpng-dev_
 
 ```bash
 cd imgarc/
 ./build.sh
+```
+
+__For Windows:__
+
+_Prequisite: MinGW with gcc, and libpng development files_
+
+```bash
+cd imgarc/
+build.bat
 ```
 
 ## Decode the included example
