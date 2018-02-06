@@ -9,8 +9,10 @@ you should encrypt it before encoding it, and then decrypt it after decoding it.
 
 ## Requirements
 
-* libpng16
+* libpng, inc. headers
 * gcc
+* MinGW (Windows only)
+* libpng3.dll (Windows only)
 
 ## Compiling
 
@@ -19,16 +21,12 @@ Microsoft Windows (all x64).
 
 __For macOS / Linux:__
 
-_Prequisite: gcc, libpng-dev_
-
 ```bash
 cd imgarc/
 ./build.sh
 ```
 
 __For Windows:__
-
-_Prequisite: MinGW with gcc, and libpng development files_
 
 ```bash
 cd imgarc/
