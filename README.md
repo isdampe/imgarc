@@ -59,11 +59,13 @@ cat /tmp/file_io.c
 
 ```
 |-------------------------------------------------------------|
-|       size (4 bytes)       |       sha1 (20 bytes)          |
+|     size (4 bytes, unsigned)     |     sha1 (20 bytes)      |
 |-------------------------------------------------------------|
-|       filename (n bytes, terminated by \0                   |
+|     filename (n bytes, terminated by \0)                    |
 |-------------------------------------------------------------|
-|       binary_data (size - 24 - strlen(filename) + 1 bytes)  |
+|     binary_data (size - 24 - (strlen(filename) +1)) bytes   |
+|     ...                                                     |
+|     ...                                                     |
 |     ...                                                     |
 |-------------------------------------------------------------|
 
