@@ -18,11 +18,9 @@ int imgarc_encode(int16_t *sequence, imgarc_data *data, imgarc_image *img, bool 
 	if ((data->size * 8) > (img->width * img->height))
 		return -1;
 
-	while (n < data->size)
-	{		
+	while (n < data->size) {		
 		current_byte = data->data[n];		
-		for (int8_t cbc=7; cbc>=0; cbc--)
-		{
+		for (int8_t cbc=7; cbc>=0; cbc--) {
 			cs = sequence[s];
 			
 			//Get bit.
@@ -97,11 +95,9 @@ int imgarc_decode_read_n_bytes_from_img(uint8_t *storage, int16_t *sequence, img
 	uint32_t result = 0;
 	int idx = 0;
 
-	while (n < end_at)
-	{		
+	while (n < end_at) {		
 		current_byte = 0;
-		for (int8_t cbc=7; cbc>=0; cbc--)
-		{
+		for (int8_t cbc=7; cbc>=0; cbc--) {
 			cs = sequence[s];
 			
 			//Set the bit of the relevant pixel.

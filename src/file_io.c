@@ -31,8 +31,7 @@ void imgarc_read_file(imgarc_file *fd, char *fp)
 	//Alocate space.
 	fd->data = malloc(fd->size_bytes * sizeof(uint8_t));
 
-	while (n < fd->size_bytes)
-	{
+	while (n < fd->size_bytes) {
 		fseek(fh, n, SEEK_SET);
 		fread(&fd->data[n], 1, 1, fh);
 		++n;

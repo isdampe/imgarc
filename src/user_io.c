@@ -17,8 +17,7 @@ void imgarc_io_print_sequence(const int16_t *sequence)
 {
 	int i = 0; int16_t c;
 	printf("Sequence: ");
-	while (1)
-	{
+	while (1) {
 		c = sequence[i];
 		if (c == -1)
 			break;

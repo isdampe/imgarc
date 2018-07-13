@@ -8,21 +8,18 @@ void imgarc_image_read_png_from_file(const char *image_fp, imgarc_image *img)
 	img->error = 0;
 
 	img->png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (! img->png)
-	{
+	if (! img->png) {
 		img->error = IMGARC_IMG_ERROR_READ_STRUCT;
 		return;
 	}
 
 	img->info = png_create_info_struct(img->png);
-	if (! img->info)
-	{
+	if (! img->info) {
 		img->error = IMGARC_IMG_ERROR_CREATE_INFO;
 		return;
 	}
 
-	if (setjmp(png_jmpbuf(img->png)))
-	{
+	if (setjmp(png_jmpbuf(img->png))) {
 		img->error = IMGARC_IMG_ERROR_SETJMP;
 		return;
 	}
@@ -73,7 +70,6 @@ void imgarc_image_read_png_from_file(const char *image_fp, imgarc_image *img)
 	}
 
 	png_read_image(img->png, img->row_pointers);
-
 	fclose(fp);
 
 }
@@ -114,28 +110,24 @@ void imgarc_image_write_png(const char *output_fp, imgarc_image *img)
 	img->error = 0;
 
 	FILE *fp = fopen(output_fp, "wb");
-	if(! fp)
-	{
+	if(!fp) {
 		img->error = IMGARC_IMG_ERROR_FWRITE;
 		return;
 	}
 
 	png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (! png)
-	{
+	if (!png) {
 		img->error = IMGARC_IMG_ERROR_WRITE_STRUCT;
 		return;
 	}
 
 	png_infop info = png_create_info_struct(png);
-	if (! info)
-	{
+	if (!info) {
 		img->error = IMGARC_IMG_ERROR_CREATE_INFO;
 		return;
 	}
 
-	if (setjmp(png_jmpbuf(png)))
-	{
+	if (setjmp(png_jmpbuf(png))) {
 		img->error = IMGARC_IMG_ERROR_SETJMP;
 		return;
 	}
@@ -155,10 +147,8 @@ void imgarc_image_write_png(const char *output_fp, imgarc_image *img)
 		PNG_FILTER_TYPE_DEFAULT
 	);
 	png_write_info(png, info);
-
 	png_write_image(png, img->row_pointers);
 	png_write_end(png, NULL);
 	fclose(fp);
 	png_destroy_write_struct(&png, &info);
-
 }

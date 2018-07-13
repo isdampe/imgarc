@@ -38,8 +38,7 @@ int imgarc_do_encode(char *img_fp, char *file_fp, char *password, char *out_fp, 
 	imgarc_data obj;
  	imgarc_data_from_fd(&obj, &fd);
 	
-	if (verbose)
-	{
+	if (verbose) {
 		printf("-- INPUT FILE --\n");
 		imgarc_io_print_file_meta(&fd);
 		printf("\n");
@@ -53,22 +52,19 @@ int imgarc_do_encode(char *img_fp, char *file_fp, char *password, char *out_fp, 
 	//if (img_src.error > 0)
 	//	imgarc_fatal("Error reading png from file.");
 
-	if (verbose)
-	{
+	if (verbose) {
 		printf("-- SOURCE IMAGE FILE --\n");
 		imgarc_io_print_image_png_meta(&img_src);
 		printf("\n");
 	}
 
 	max_file_size = imgarc_image_get_max_encoding_size_bytes(&img_src);
-	if (obj.size >= max_file_size)
-	{
+	if (obj.size >= max_file_size) {
 		printf("The maximum file size that can be encoded into this PNG is %u bytes.\n", max_file_size);
 		imgarc_fatal("Input file exceeded the maximum encodable file size.");
 	}
 
-	if (verbose)
-	{
+	if (verbose) {
 		printf("-- ENCODING SEQUENCE --\n");
 		imgarc_io_print_sequence(sequence);
 		printf("\n");
@@ -78,8 +74,7 @@ int imgarc_do_encode(char *img_fp, char *file_fp, char *password, char *out_fp, 
 	if (imgarc_encode(sequence, &obj, &img_src, verbose) < 0)
 		imgarc_fatal("Error encoding data into PNG. Is the file too big?");
 	
-	if (verbose)
-	{
+	if (verbose) {
 		printf("Encoding complete.\n\n");
 		printf("-- OUTPUT FILE --\n");
 	}
@@ -97,7 +92,6 @@ int imgarc_do_encode(char *img_fp, char *file_fp, char *password, char *out_fp, 
 	imgarc_image_png_free(&img_src);
 
 	printf("Encoding done.\n");
-	
 	return 0;
 }
 
@@ -114,8 +108,7 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 	if (img_src.error > 0)
 		imgarc_fatal("Error reading png from file.");
 
-	if (verbose)
-	{
+	if (verbose) {
 		printf("-- SOURCE IMAGE FILE --\n");
 		imgarc_io_print_image_png_meta(&img_src);
 		printf("\n");
@@ -129,20 +122,17 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 					 "the given image.");
 
 	imgarc_file_from_data(&new_file, &obj);
-	if (verbose)
-	{
+	if (verbose) {
 		printf("-- DECODED FILE --\n");
 		imgarc_io_print_file_meta(&new_file);
 	}
 
 	//Verify checksum.
-	if (imgarc_file_verify_checksum(&new_file))
-	{
+	if (imgarc_file_verify_checksum(&new_file)) {
 		if (! imgarc_data_write_file(&obj, &new_file, out_dir, verbose))
 			printf("An error occured when writing %s\n", new_file.name);	
 	}	
-	else
-	{
+	else {
 		printf("The decoded checksum did not match the file data.\n");
 		printf("Typically, this means either the password is wrong, or the file has been corrupt.\n");
 	}
@@ -165,10 +155,8 @@ int main(int argc, char **argv)
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "edvi:f:p:o:")) != -1)
-	{
-		switch (c)
-		{
+	while ((c = getopt (argc, argv, "edvi:f:p:o:")) != -1) {
+		switch (c) {
 			case 'v':
 				verbose = true;
 			break;
