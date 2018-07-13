@@ -12,7 +12,7 @@ typedef struct
 	uint8_t checksum[SHA1_BLOCK_SIZE];
 } imgarc_file;
 
-imgarc_file imgarc_read_file(char *fp);
+void imgarc_read_file(imgarc_file *fd, char *fp);
 void imgarc_free_file(imgarc_file *fd);
 int imgarc_write_file(const imgarc_file *file);
 bool imgarc_file_verify_checksum(imgarc_file *fd);

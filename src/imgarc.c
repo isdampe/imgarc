@@ -29,12 +29,14 @@ int imgarc_do_encode(char *img_fp, char *file_fp, char *password, char *out_fp, 
 	uint32_t max_file_size = 0;
 
 	//Read the file to be encoded.
-	imgarc_file fd = imgarc_read_file(file_fp);
+	imgarc_file fd;
+	imgarc_read_file(&fd, file_fp);
 	if (fd.size_bytes < 1)
 		imgarc_fatal("cannot read input_file, or the file is too small.");
 	
 	//Set data for this file.
-	imgarc_data obj = imgarc_data_from_fd(&fd);
+	imgarc_data obj;
+ 	imgarc_data_from_fd(&obj, &fd);
 	
 	if (verbose)
 	{
@@ -126,7 +128,7 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 					 "the encoded file is larger than the maximum possible for " \
 					 "the given image.");
 
-	new_file = imgarc_file_from_data(&obj);
+	imgarc_file_from_data(&new_file, &obj);
 	if (verbose)
 	{
 		printf("-- DECODED FILE --\n");
