@@ -28,10 +28,14 @@ void imgarc_io_print_sequence(const int16_t *sequence)
 	printf("\n");
 }
 
-
 void imgarc_io_print_image_png_meta(imgarc_image *img)
 {
 	printf("Bit depth: %i\n", img->bit_depth);
 	printf("Width: %i pixels\n", img->width);
 	printf("Height: %i pixels\n", img->height);
+}
+
+void imgarc_io_get_input(char *storage, char *pattern)
+{
+	scanf(pattern, storage);
 }

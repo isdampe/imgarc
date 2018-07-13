@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <string.h>
 #include "file_io.h"
 #include "data.h"
 #include "user_io.h"
@@ -18,8 +19,8 @@ void imgarc_fatal(char *error)
 void imgarc_usage()
 {
 	printf("Usage: imgarc [mode] [files]\n");
-	printf("Encoding: imgarc -e -i example.png -f source_file.txt -p password -o output.png\n");
-	printf("Decoding: imgarc -d -i output.png -p password\n");
+	printf("Encoding: imgarc -e -i example.png -f source_file.txt -o output.png\n");
+	printf("Decoding: imgarc -d -i output.png\n");
 	exit(1);
 }
 
@@ -148,14 +149,15 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 
 int main(int argc, char **argv)
 {
-	char *img_fp = NULL, *in_fp = NULL, *password = NULL, *out_fp = NULL;
+	char *img_fp = NULL, *in_fp = NULL, *out_fp = NULL;
+	char password[256];
 	enum {MODE_INVALID, MODE_ENCODE, MODE_DECODE} mode = MODE_INVALID;
 	int c;
 	bool verbose = false;
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "edvi:f:p:o:")) != -1) {
+	while ((c = getopt (argc, argv, "edvi:f:o:")) != -1) {
 		switch (c) {
 			case 'v':
 				verbose = true;
@@ -172,14 +174,11 @@ int main(int argc, char **argv)
 			case 'f':
 				in_fp = optarg;
 			break;
-			case 'p':
-				password = optarg;
-			break;
 			case 'o':
 				out_fp = optarg;
 			break;
 			case '?':
-				if (optopt == 'i' || optopt == 'f' || optopt == 'p' || optopt == 'o')
+				if (optopt == 'i' || optopt == 'f' || optopt == 'o')
 					fprintf(stderr, "Option -%c requires an argument.\n", optopt);
 				else if (isprint(optopt))
 					fprintf(stderr, "Unknown option `-%c'.\n", optopt);
@@ -198,20 +197,26 @@ int main(int argc, char **argv)
 			imgarc_usage();
 		break;
 		case MODE_ENCODE:
+			printf("Enter password (plain-text): ");
+			imgarc_io_get_input(password, "%255s");
+
 			if (
 				img_fp == NULL ||
 				in_fp == NULL ||
-				password == NULL ||
+				strlen(password) == 0 ||
 				out_fp == NULL
 			)
 				imgarc_usage();
-			
+					
 			return imgarc_do_encode(img_fp, in_fp, password, out_fp, verbose);
 		break;
 		case MODE_DECODE:
+			printf("Enter password (plain-text): ");
+			imgarc_io_get_input(password, "%255s");
+
 			if (
 				img_fp == NULL ||
-				password == NULL
+				strlen(password) == 0
 			)
 				imgarc_usage();
 			if (out_fp == NULL)
