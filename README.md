@@ -49,9 +49,9 @@ imgarc -d -i example.png -p really_secure_password -v
 ```bash
 cd imgarc/
 # Encode src/file_io.c into example.png and store it in output.png
-./bin/imgarc -e -i example.png -f src/file_io.c -p password123 -o output.png -v
+./bin/imgarc -e -i example.png -f src/file_io.c -o output.png -v
 # Decode output.png and store the file it contains in /tmp
-./bin/imgarc -d -i output.png -p password123 -o /tmp -v
+./bin/imgarc -d -i output.png -o /tmp -v
 # Show the file output after decoding.
 cat /tmp/file_io.c
 ```
