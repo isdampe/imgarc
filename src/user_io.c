@@ -35,7 +35,8 @@ void imgarc_io_print_image_png_meta(imgarc_image *img)
 	printf("Height: %i pixels\n", img->height);
 }
 
-void imgarc_io_get_input(char *storage, char *pattern)
+void imgarc_io_get_input(char *storage, int max_size)
 {
-	scanf(pattern, storage);
+	//scanf(pattern, storage);
+	fgets(storage, max_size, stdin);
 }

@@ -150,7 +150,7 @@ int imgarc_do_decode(char *img_fp, char *password, char *out_dir, bool verbose)
 int main(int argc, char **argv)
 {
 	char *img_fp = NULL, *in_fp = NULL, *out_fp = NULL;
-	char password[256];
+	char password[IMGARC_MAX_PASS_LEN];
 	enum {MODE_INVALID, MODE_ENCODE, MODE_DECODE} mode = MODE_INVALID;
 	int c;
 	bool verbose = false;
@@ -198,7 +198,7 @@ int main(int argc, char **argv)
 		break;
 		case MODE_ENCODE:
 			printf("Enter password (plain-text): ");
-			imgarc_io_get_input(password, "%255s");
+			imgarc_io_get_input(password, IMGARC_MAX_PASS_LEN);
 
 			if (
 				img_fp == NULL ||
@@ -212,7 +212,7 @@ int main(int argc, char **argv)
 		break;
 		case MODE_DECODE:
 			printf("Enter password (plain-text): ");
-			imgarc_io_get_input(password, "%255s");
+			imgarc_io_get_input(password, IMGARC_MAX_PASS_LEN);
 
 			if (
 				img_fp == NULL ||
